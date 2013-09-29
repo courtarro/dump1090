@@ -39,10 +39,11 @@
     </script>
     <script type="text/javascript">
     Map=null;
-    CenterLat=45.0;
-    CenterLon=9.0;
+    CenterLat=33.8;
+    CenterLon=-84.5;
     Planes={};
     NumPlanes = 0;
+	HiddenPlanes = 0;
     Selected=null
 
     function getIconForPlane(plane) {
@@ -76,9 +77,12 @@
     }
     
     function refreshGeneralInfo() {
+        var newHTML = NumPlanes+' planes on screen.';
+		if (HiddenPlanes)
+			newHTML += '<br/>' + HiddenPlanes + ' not shown (no positional data).';
+		
         var i = document.getElementById('geninfo');
-
-        i.innerHTML = NumPlanes+' planes on screen.';
+		i.innerHTML = newHTML;
     }
 
     function refreshSelectedInfo() {
@@ -99,8 +103,17 @@
     function fetchData() {
         $.getJSON('/data.json', function(data) {
             var stillhere = {}
+			NumPlanes = 0
+			HiddenPlanes = 0
             for (var j=0; j < data.length; j++) {
                 var plane = data[j];
+				
+				if (plane.lat == 0 && plane.lon == 0) {
+					HiddenPlanes++;
+					continue;
+				}
+				
+				NumPlanes++;
                 var marker = null;
                 stillhere[plane.hex] = true;
                 plane.flight = $.trim(plane.flight);
@@ -138,7 +151,6 @@
                 else
                     marker.setTitle(plane.flight+' ('+plane.hex+')')
             }
-            NumPlanes = data.length;
 
             /* Remove idle planes. */
             for (var p in Planes) {
@@ -153,7 +165,7 @@
     function initialize() {
         var mapOptions = {
             center: new google.maps.LatLng(CenterLat, CenterLon),
-            zoom: 5,
+            zoom: 8,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         Map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
@@ -171,7 +183,7 @@
     <div id="map_canvas" style="width:80%; height:100%"></div>
     <div id="info">
       <div>
-        <h1>Dump1090</h1>
+        <h1>ADS-B Monitor</h1>
         <p id="geninfo"></p>
         <p id="selinfo">Click on a plane for info.</p>
       </div>
