@@ -43,7 +43,7 @@
     CenterLon=-84.5;
     Planes={};
     NumPlanes = 0;
-	HiddenPlanes = 0;
+    HiddenPlanes = 0;
     Selected=null
 
     function getIconForPlane(plane) {
@@ -78,11 +78,11 @@
     
     function refreshGeneralInfo() {
         var newHTML = NumPlanes+' planes on screen.';
-		if (HiddenPlanes)
-			newHTML += '<br/>' + HiddenPlanes + ' not shown (no positional data).';
-		
+        if (HiddenPlanes)
+            newHTML += '<br/>' + HiddenPlanes + ' not shown (no positional data).';
+        
         var i = document.getElementById('geninfo');
-		i.innerHTML = newHTML;
+        i.innerHTML = newHTML;
     }
 
     function refreshSelectedInfo() {
@@ -103,17 +103,17 @@
     function fetchData() {
         $.getJSON('/data.json', function(data) {
             var stillhere = {}
-			NumPlanes = 0
-			HiddenPlanes = 0
+            NumPlanes = 0
+            HiddenPlanes = 0
             for (var j=0; j < data.length; j++) {
                 var plane = data[j];
-				
-				if (plane.lat == 0 && plane.lon == 0) {
-					HiddenPlanes++;
-					continue;
-				}
-				
-				NumPlanes++;
+                
+                if (plane.lat == 0 && plane.lon == 0) {
+                    HiddenPlanes++;
+                    continue;
+                }
+                
+                NumPlanes++;
                 var marker = null;
                 stillhere[plane.hex] = true;
                 plane.flight = $.trim(plane.flight);
