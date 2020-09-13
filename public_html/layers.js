@@ -15,6 +15,7 @@ function createBaseLayers() {
                 name: 'osm',
                 title: 'OpenStreetMap',
                 type: 'base',
+                opacity: 0.6,
         }));
 
         world.push(new ol.layer.Tile({
@@ -145,6 +146,7 @@ function createBaseLayers() {
                                 name: 'chartbundle_' + type,
                                 title: chartbundleTypes[type],
                                 type: 'base',
+                                opacity: 0.6,
                                 group: 'chartbundle'}));
                 }
         }
@@ -162,8 +164,8 @@ function createBaseLayers() {
                 // re-build the source to force a refresh of the nexrad tiles
                 var now = new Date().getTime();
                 nexrad.setSource(new ol.source.XYZ({
-                        url : 'http://mesonet{1-3}.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{z}/{x}/{y}.png?_=' + now,
-                        attributions: 'NEXRAD courtesy of <a href="http://mesonet.agron.iastate.edu/">IEM</a>'
+                        url : 'https://mesonet{1-3}.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913/{z}/{x}/{y}.png?_=' + now,
+                        attributions: 'NEXRAD courtesy of <a href="https://mesonet.agron.iastate.edu/">IEM</a>'
                 }));
         };
 

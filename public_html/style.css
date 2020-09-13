@@ -43,6 +43,7 @@ html, body {
     position: absolute;
     width: 100%;
     height: 100%;
+    background-color: #000;
 }
 
 #planes_table_container {
